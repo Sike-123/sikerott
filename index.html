@@ -29,19 +29,37 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
             color: var(--text-dark);
             line-height: 1.6;
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
             overflow-x: hidden;
         }
+
+/* This creates the blurred background layer */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+    /* Replace background.jpg with your image filename */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+    /* This is the magic blur effect! */
+            filter: blur(8px); 
+    /* This makes sure the blur doesn't "bleed" over the edges */
+            transform: scale(1.1); 
+            z-index: -1;
+        }
+
 
         /* --- Custom Cursor --- */
         .cursor-dot, .cursor-outline {
