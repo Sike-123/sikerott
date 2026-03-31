@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Doe | Creative Web Developer</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css for entrance animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #6366f1;
+            --accent-color: #d661eb;
+            --bg-gradient: linear-gradient(135deg, #0bf0a0 0%, #00d2ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot, .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--secondary-color);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--secondary-color);
+        }
+
+        /* --- Header & Hero --- */
+        header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Main Content --- */
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            padding: 0 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card h2 i {
+            color: var(--secondary-color);
+        }
+
+        /* Profile Image Enhancement */
+        .profile-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20%;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Skills List Enhancement */
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skills-list li {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: var(--transition);
+        }
+
+        .skills-list li:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        /* Projects List Enhancement */
+        .projects-list {
+            list-style: none;
+        }
+
+        .projects-list li {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .projects-list li:hover {
+            background: white;
+            padding-left: 1.5rem;
+        }
+
+        /* Form Enhancement */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        input[type="text"], 
+        input[type="email"], 
+        input[type="date"] {
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .role-selection {
+            display: flex;
+            gap: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        button {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        button:hover {
+            background: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(214, 97, 235, 0.3);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(31, 41, 55, 0.9);
+            color: white;
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .container { grid-template-columns: 1fr; }
+            nav { gap: 1rem; }
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header class="animate__animated animate__fadeIn">
+        <h1 class="animate__animated animate__slideInDown">Hi, I'm John Doe</h1>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s">
+            I'm a passionate Web Developer focused on building immersive and beautiful digital experiences.
+        </p>
+    </header>
+
+    <nav id="navbar">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="container">
+        <!-- About Section -->
+        <div class="card reveal" id="about">
+            <h2><i class="fas fa-user-circle"></i> About Me</h2>
+            <div class="profile-container">
+                <img src="mon.png" alt="My Photo" class="profile-img">
+            </div>
+            <p>
+                My name is <strong>John Doe</strong>, and I am a web developer with a passion for creating beautiful and functional websites. 
+                I specialize in turning complex problems into simple, elegant designs.
+            </p>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="card reveal" id="skills">   
+            <h2><i class="fas fa-code"></i> Skills</h2>
+            <ul class="skills-list">
+                <li><i class="fab fa-html5"></i> HTML5</li>
+                <li><i class="fab fa-css3-alt"></i> CSS3</li>
+                <li><i class="fab fa-js"></i> JavaScript</li>
+                <li><i class="fab fa-react"></i> React</li>
+                <li><i class="fab fa-node-js"></i> Node.js</li>
+                <li><i class="fas fa-database"></i> SQL</li>
+            </ul>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="card reveal" id="projects">
+            <h2><i class="fas fa-laptop-code"></i> Projects</h2>
+            <ul class="projects-list">
+                <li>
+                    <strong>Personal Blog</strong>
+                    <p style="font-size: 0.8rem; color: var(--text-light)">A minimal markdown-based blog engine.</p>
+                </li>
+                <li>
+                    <strong>Photo Gallery</strong>
+                    <p style="font-size: 0.8rem; color: var(--text-light)">Interactive 3D image carousel.</p>
+                </li>
+                <li>
+                    <strong>Online Resume</strong>
+                    <p style="font-size: 0.8rem; color: var(--text-light)">Responsive digital CV with PDF export.</p>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="card reveal" id="contact">
+            <h2><i class="fas fa-paper-plane"></i> Contact Me</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="input-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="email@example.com" required>
+                </div>
+                
+                <label>Your Role</label>
+                <div class="role-selection">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="role" value="Teacher"> Teacher
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="role" value="Student"> Student
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <label for="date">Best Contact Date</label>
+                    <input type="date" id="date" name="date">
+                </div>
+
+                <button type="submit" id="submitBtn">Send Message</button>
+            </form>
+
+            <div style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                <p><i class="fas fa-envelope"></i> example@email.com</p>
+                <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2024 My Portfolio. Crafted with <i class="fas fa-heart" style="color: #ff4d4d;"></i> by John Doe.</p>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // 1. Custom Cursor Movement
+        const dot = document.querySelector('.cursor-dot');
+        const outline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            dot.style.left = `${posX}px`;
+            dot.style.top = `${posY}px`;
+
+            // Delay the outline for a smooth trailing effect
+            outline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // 2. Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Run once on load
+        reveal();
+
+        // 3. Form Submission Handling
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
+            
+            // Visual Feedback
+            btn.innerText = 'Sending...';
+            btn.style.background = '#6366f1';
+            
+            setTimeout(() => {
+                btn.innerText = 'Success!';
+                btn.style.background = '#10b981';
+                contactForm.reset();
+                
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = '';
+                }, 3000);
+            }, 1500);
+        });
+
+        // 4. Smooth Navbar Background Change
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                nav.style.padding = '0.7rem 0';
+            } else {
+                nav.style.background = 'rgba(255, 255, 255, 0.8)';
+                nav.style.padding = '1rem 0';
+            }
+        });
+    </script>
+</body>
+</html>
